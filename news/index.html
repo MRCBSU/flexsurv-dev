@@ -52,7 +52,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="2.3" id="version-23-2024--">Version 2.3 (2024-??-??)<a class="anchor" aria-label="anchor" href="#version-23-2024--"></a></h2>
+<h2 class="pkg-version" data-toc-text="2.3" id="version-23-2024-04-05">Version 2.3 (2024-04-05)<a class="anchor" aria-label="anchor" href="#version-23-2024-04-05"></a></h2>
 <ul><li><p>Analytic Hessian calculation for models where this is possible, that is, Weibull, Gompertz, exponential, and spline models in hazard and odds scales.</p></li>
 <li><p>Analytic gradient calculation for Weibull proportional hazards models.</p></li>
 <li><p>Weighted likelihood for relative survival models now implemented consistently with other models, as a weighted sum of individual log-likelihoods.</p></li>
@@ -65,7 +65,9 @@
 <li><p>Default value for <code>t</code> now chosen in <code>hr_flexsurvreg</code>.</p></li>
 <li><p><code>coxsnell.flexsurvreg</code> now handles delayed entry.</p></li>
 <li><p>Warning given if the name of a location parameter is included in the ancillary part of the model specification.</p></li>
-</ul></div>
+<li><p>Fix for computing quantiles for custom distributions (<a href="https://github.com/chjackson/flexsurv/issues/187" class="external-link">#187</a>).</p></li>
+</ul><p>Thank you to all who have contributed code for this version: <a href="https://github.com/mikesweeting" class="external-link">@mikesweeting</a> <a href="https://github.com/stephematician" class="external-link">@stephematician</a> <a href="https://github.com/ndunnewind" class="external-link">@ndunnewind</a> <a href="https://github.com/mattwarkentin" class="external-link">@mattwarkentin</a> <a href="https://github.com/hfrick" class="external-link">@hfrick</a> <a href="https://github.com/kkmann" class="external-link">@kkmann</a>; or reported issues: <a href="https://github.com/anddis" class="external-link">@anddis</a> <a href="https://github.com/irtimmins" class="external-link">@irtimmins</a> <a href="https://github.com/sbihorel" class="external-link">@sbihorel</a> <a href="https://github.com/zou-ims" class="external-link">@zou-ims</a> <a href="https://github.com/aghaynes" class="external-link">@aghaynes</a> <a href="https://github.com/huftis" class="external-link">@huftis</a> <a href="https://github.com/mafed" class="external-link">@mafed</a> <a href="https://github.com/hezht3" class="external-link">@hezht3</a> <a href="https://github.com/sebffischer" class="external-link">@sebffischer</a> (and anyone else who reported issues via email).</p>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.2.2" id="version-222-2023-01-31">Version 2.2.2 (2023-01-31)<a class="anchor" aria-label="anchor" href="#version-222-2023-01-31"></a></h2><p class="text-muted">CRAN release: 2023-02-01</p>
 <ul><li>Allow unicode characters in vignette, to satisfy R CMD check on r-devel.</li>
