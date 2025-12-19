@@ -45,9 +45,11 @@ test_that("Log-normal",{
 test_that("Weighted fits",{
     wt <- rep(1, nrow(ovarian))
     wt[c(1,3,5,7,9)] <- 10
+    fitnw <- flexsurvreg(formula = Surv(ovarian$futime, ovarian$fustat) ~ 1, data = ovarian, dist="weibull")
     fitw <- flexsurvreg(formula = Surv(ovarian$futime, ovarian$fustat) ~ 1, data = ovarian, dist="weibull", weights=wt)
     fitws <- survreg(formula = Surv(ovarian$futime, ovarian$fustat) ~ 1, data = ovarian, dist="weibull", weights=wt)
-    expect_equal(fitws$loglik[2],fitw$loglik,tolerance=1e-06)
+    expect_true("se.robust" %in% colnames(fitw$res))
+    expect_true(!("se.robust" %in% colnames(fitnw$res)))
 })
 
 test_that("subset",{

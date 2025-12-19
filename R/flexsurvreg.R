@@ -930,8 +930,8 @@ flexsurvreg <- function(formula, anc=NULL, data, weights, bhazard, rtrunc, subse
     weights <- model.extract(m, "weights")
     if (is.null(weights)) {
       weights <- m$"(weights)" <- rep(1, nrow(X))
-      weights_supplied <- TRUE
-    } else weights_supplied <- FALSE     
+      weights_supplied <- FALSE
+    } else weights_supplied <- TRUE
     bhazard <- model.extract(m, "bhazard")
     if (is.null(bhazard)) bhazard <- rep(0, nrow(X))
     rtrunc <- model.extract(m, "rtrunc")
