@@ -231,7 +231,7 @@ flexsurvmix <- function(formula, data, event, dists,
   ## Determine which of these are codes for partially observed events
   if (!is.null(partial_events)) {
     if (!is.list(partial_events)) stop("`partial_events` must be a list")
-    if (!is.null(names(partial_events))) stop("`partial_events` must be a named list")
+    if (is.null(names(partial_events))) stop("`partial_events` must be a named list")
     npartials <- length(partial_events)
     evnames <- setdiff(levels(event), names(partial_events))
     for (i in 1:npartials){
