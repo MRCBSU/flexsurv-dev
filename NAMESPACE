@@ -229,52 +229,74 @@ import(stats)
 importFrom(Matrix,nearPD)
 importFrom(Rcpp,sourceCpp)
 importFrom(deSolve,ode)
-importFrom(dplyr,bind_cols)
-importFrom(dplyr,bind_rows)
-importFrom(dplyr,distinct)
-importFrom(dplyr,full_join)
-importFrom(dplyr,group_by)
-importFrom(dplyr,inner_join)
-importFrom(dplyr,left_join)
-importFrom(dplyr,mutate)
-importFrom(dplyr,n)
-importFrom(dplyr,pull)
-importFrom(dplyr,rename)
-importFrom(dplyr,select)
-importFrom(dplyr,slice)
-importFrom(dplyr,summarise)
-importFrom(dplyr,ungroup)
-importFrom(generics,augment)
-importFrom(generics,glance)
-importFrom(generics,tidy)
-importFrom(graphics,lines)
-importFrom(graphics,plot)
+importFrom(dplyr,
+  bind_cols,
+  bind_rows,
+  distinct,
+  full_join,
+  group_by,
+  inner_join,
+  left_join,
+  mutate,
+  n,
+  pull,
+  rename,
+  select,
+  slice,
+  summarise,
+  ungroup
+)
+importFrom(generics,
+  augment,
+  glance,
+  tidy
+)
+importFrom(graphics,
+  lines,
+  plot
+)
 importFrom(magrittr,"%>%")
-importFrom(mstate,msfit)
-importFrom(mstate,probtrans)
+importFrom(mstate,
+  msfit,
+  probtrans
+)
 importFrom(muhaz,muhaz)
 importFrom(mvtnorm,rmvnorm)
-importFrom(numDeriv,grad)
-importFrom(numDeriv,hessian)
+importFrom(numDeriv,
+  grad,
+  hessian
+)
 importFrom(purrr,map2_dbl)
 importFrom(quadprog,solve.QP)
-importFrom(rlang,":=")
-importFrom(rlang,.data)
+importFrom(rlang,
+  ":=",
+  .data
+)
 importFrom(statmod,gauss.quad)
-importFrom(stats,predict)
-importFrom(stats,residuals)
-importFrom(survival,Surv)
-importFrom(survival,coxph)
-importFrom(survival,survfit)
-importFrom(survival,survreg)
-importFrom(survival,survreg.control)
-importFrom(tibble,as_tibble)
-importFrom(tibble,tibble)
-importFrom(tidyr,pivot_longer)
-importFrom(tidyr,pivot_wider)
-importFrom(tidyr,unnest)
-importFrom(tidyselect,all_of)
-importFrom(tidyselect,matches)
-importFrom(tidyselect,num_range)
+importFrom(stats,
+  predict,
+  residuals
+)
+importFrom(survival,
+  Surv,
+  coxph,
+  survfit,
+  survreg,
+  survreg.control
+)
+importFrom(tibble,
+  as_tibble,
+  tibble
+)
+importFrom(tidyr,
+  pivot_longer,
+  pivot_wider,
+  unnest
+)
+importFrom(tidyselect,
+  all_of,
+  matches,
+  num_range
+)
 importFrom(utils,globalVariables)
 useDynLib(flexsurv, .registration = TRUE)

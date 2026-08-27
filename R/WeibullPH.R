@@ -29,8 +29,7 @@
 ##' These coefficients are related to the log hazard ratios \eqn{\gamma} as
 ##' \eqn{\beta = -\gamma / a}.
 ##' 
-##' @aliases WeibullPH dweibullPH pweibullPH qweibullPH rweibullPH HweibullPH
-##' hweibullPH
+##' @aliases WeibullPH dweibullPH pweibullPH qweibullPH rweibullPH HweibullPH hweibullPH
 ##' @param x,q Vector of quantiles.
 ##' @param p Vector of probabilities.
 ##' @param n number of observations. If \code{length(n) > 1}, the length is

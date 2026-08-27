@@ -40,6 +40,10 @@ if (require("msm")){
         expect_equal(pmatrix.msm(bmsm, t=1)[1,1], pmatrix.fs(bexp, tmat)[1,1], tol=1e-04)
         expect_equal(pmatrix.msm(bmsm, t=1)[1,2], pmatrix.fs(bexp, tmat)[1,2], tol=1e-03)
         expect_equal(pmatrix.msm(bmsm, t=1)[2,3], pmatrix.fs(bexp, tmat)[2,3], tol=1e-03)
+
+        dt <- 1
+        expect_equal(pmatrix.msm(bmsm, t = dt)[2,3], pmatrix.fs(bexp, tmat, t=0.5+dt, t0=0.5)[2,3], tol=1e-03)
+
         pmatrix.fs(bexp, tmat, ci=TRUE, B=5)
         pmatrix.fs(bexp, tmat, t=c(5,10))
         pmatrix.fs(bexp, tmat, t=c(5,10), ci=TRUE, B=5)

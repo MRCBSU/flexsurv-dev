@@ -43,8 +43,7 @@
 ##' alternative parameterisation \code{\link{GenF}}, extend the generalized
 ##' gamma to four parameters.
 ##' 
-##' @aliases GenGamma.orig dgengamma.orig pgengamma.orig qgengamma.orig
-##' rgengamma.orig Hgengamma.orig hgengamma.orig
+##' @aliases GenGamma.orig dgengamma.orig pgengamma.orig qgengamma.orig rgengamma.orig Hgengamma.orig hgengamma.orig
 ##' @param x,q vector of quantiles.
 ##' @param p vector of probabilities.
 ##' @param n number of observations. If \code{length(n) > 1}, the length is
@@ -125,8 +124,7 @@ NULL
 ##' The generalized F distribution \code{\link{GenF}} extends the generalized
 ##' gamma to four parameters.
 ##' 
-##' @aliases GenGamma dgengamma pgengamma qgengamma rgengamma Hgengamma
-##' hgengamma
+##' @aliases GenGamma dgengamma pgengamma qgengamma rgengamma Hgengamma hgengamma
 ##' @param x,q vector of quantiles.
 ##' @param p vector of probabilities.
 ##' @param n number of observations. If \code{length(n) > 1}, the length is

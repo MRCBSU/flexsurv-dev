@@ -130,10 +130,7 @@ NULL
 ##' is also provided analytically.  Mean and restricted means for other distributions
 ##' are calculated via numeric integration.
 ##' 
-##' @aliases mean_exp rmst_exp mean_weibull rmst_weibull mean_weibullPH rmst_weibullPH
-##' mean_llogis rmst_llogis mean_lnorm rmst_lnorm mean_gamma rmst_gamma mean_gompertz
-##' rmst_gompertz mean_gengamma rmst_gengamma mean_gengamma.orig rmst_gengamma.orig
-##' mean_genf rmst_genf mean_genf.orig rmst_genf.orig
+##' @aliases mean_exp rmst_exp mean_weibull rmst_weibull mean_weibullPH rmst_weibullPH mean_llogis rmst_llogis mean_lnorm rmst_lnorm mean_gamma rmst_gamma mean_gompertz rmst_gompertz mean_gengamma rmst_gengamma mean_gengamma.orig rmst_gengamma.orig mean_genf rmst_genf mean_genf.orig rmst_genf.orig
 ##' @param t Vector of times to which restricted mean survival time is evaluated
 ##' @param start Optional left-truncation time or times.  The returned
 ##' restricted mean survival will be conditioned on survival up to

@@ -25,8 +25,7 @@
 ##' forever.  On these occasions \code{qgompertz} and \code{rgompertz} will
 ##' return \code{Inf}.
 ##' 
-##' @aliases Gompertz dgompertz pgompertz qgompertz hgompertz Hgompertz
-##' rgompertz
+##' @aliases Gompertz dgompertz pgompertz qgompertz hgompertz Hgompertz rgompertz
 ##' @param x,q vector of quantiles.
 ##' @param p vector of probabilities.
 ##' @param n number of observations. If \code{length(n) > 1}, the length is

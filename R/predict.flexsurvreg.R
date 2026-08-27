@@ -33,10 +33,14 @@
 #'
 #' * \code{"hazard"} for hazards
 #'
-#' * \code{"link"} for fitted values of the location parameter, analogous to
-#'   the linear predictor in generalized linear models (\code{type = "lp"} and
-#'   \code{type = "linear"} are acceptable synonyms). This is on the natural
-#'   scale of the parameter, not the log scale. 
+#' * \code{"link"} for fitted values of the location parameter,
+#'   analogous to the linear predictor in generalized linear models
+#'   (\code{type = "lp"} and \code{type = "linear"} are acceptable
+#'   synonyms). This is on the natural scale of the parameter, not the
+#'   transformed scale.  For example, positive location parameters
+#'   (like \code{rate} in the exponential) are not log transformed and
+#'   remain positive, while unrestricted location parameters (like
+#'   \code{meanlog} for the log normal) remain unrestricted.
 #'
 #' @param times Vector of time horizons at which to compute fitted values.
 #'   Only applies when \code{type} is \code{"survival"}, \code{"cumhaz"},

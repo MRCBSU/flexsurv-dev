@@ -9,6 +9,7 @@ totlos.fs(
   x,
   trans = NULL,
   t = 1,
+  t0 = 0,
   newdata = NULL,
   ci = FALSE,
   tvar = "trans",
@@ -30,7 +31,12 @@ permitted transition, as illustrated in \code{\link{msfit.flexsurvreg}}.}
 \item{trans}{Matrix indicating allowed transitions.  See
 \code{\link{msfit.flexsurvreg}}.}
 
-\item{t}{Time or vector of times to predict up to.  Must be finite.}
+\item{t}{Time or vector of times to predict up to.  Must be finite, and
+greater than \code{t0}.}
+
+\item{t0}{Time to predict from, default 0.  The expected length of stay is
+computed over the interval \code{(t0, t)}, but conditional on the state
+occupied at time 0 (as in \code{totlos.msm}), not at time \code{t0}.}
 
 \item{newdata}{A data frame specifying the values of covariates in the
 fitted model, other than the transition number.  See
@@ -92,6 +98,12 @@ is the matrix of total lengths of stay, \eqn{P(t)} is the transition
 probability matrix for time \eqn{t}, and \eqn{Q(t)} is the transition
 hazard or intensity as a function of \eqn{t}.  The initial conditions are
 \eqn{T(0) = 0} and \eqn{P(0) = I}.
+
+If \code{t0} is supplied, the length of stay is computed over the interval
+from \code{t0} to \code{t} as \eqn{T(t) - T(t_0)}.  Note that \eqn{P(t)}
+here is always the transition probability from time 0, so the result is
+conditional on the state occupied at time 0, not at time \code{t0}.  This
+matches the behaviour of \code{totlos.msm} with its \code{fromt} argument.
 
 Note that the package \pkg{msm} has a similar method \code{totlos.msm}.
 \code{totlos.fs} should give the same results as \code{totlos.msm} when

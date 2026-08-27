@@ -36,8 +36,7 @@
 ##' negative first shape parameter.  The original is provided here for
 ##' the sake of completion and compatibility.
 ##' 
-##' @aliases GenF.orig dgenf.orig pgenf.orig qgenf.orig rgenf.orig Hgenf.orig
-##' hgenf.orig
+##' @aliases GenF.orig dgenf.orig pgenf.orig qgenf.orig rgenf.orig Hgenf.orig hgenf.orig
 ##' @param x,q vector of quantiles.
 ##' @param p vector of probabilities.
 ##' @param n number of observations. If \code{length(n) > 1}, the length is

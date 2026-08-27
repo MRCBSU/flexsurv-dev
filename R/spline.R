@@ -6,8 +6,7 @@
 ##' together in a single argument \code{gamma}. For the equivalent functions with
 ##' one argument per parameter, see \code{\link{Survsplinek}}.
 ##'
-##' @aliases dsurvspline psurvspline qsurvspline rsurvspline
-##' hsurvspline Hsurvspline mean_survspline rmst_survspline
+##' @aliases dsurvspline psurvspline qsurvspline rsurvspline hsurvspline Hsurvspline mean_survspline rmst_survspline
 ##' 
 ##' @param x,q,t Vector of times.
 ##'
