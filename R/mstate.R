@@ -314,7 +314,7 @@ state_names <- function(state, object){
 ##' The transition probability matrix for time-inhomogeneous Markov multi-state
 ##' models fitted to time-to-event data with \code{\link{flexsurvreg}}.  This
 ##' has \eqn{r,s} entry giving the probability that an individual is in state
-##' \eqn{s} at time \eqn{t}, given they are in state \eqn{r} at time \eqn{0}.
+##' \eqn{s} at time \eqn{t}, given they are in state \eqn{r} at time \eqn{t_0}.
 ##' 
 ##' This is computed by solving the Kolmogorov forward differential equation
 ##' numerically, using the methods in the \pkg{deSolve} package.  The
@@ -359,6 +359,8 @@ state_names <- function(state, object){
 ##'
 ##' @param t Time or vector of times to predict state occupancy probabilities
 ##' for.
+##'
+##' @param t0 Starting time for the prediction, defaulting to 0.
 ##'
 ##' @param newdata A data frame specifying the values of covariates in the
 ##' fitted model, other than the transition number.  See
@@ -413,7 +415,7 @@ state_names <- function(state, object){
 ##' # BOS (state 2)
 ##' pmatrix.fs(bexp, t=c(5,10), trans=tmat)
 ##' @export
-pmatrix.fs <- function(x, trans=NULL, t=1, newdata=NULL,
+pmatrix.fs <- function(x, trans=NULL, t=1, t0=0, newdata=NULL,
                        condstates = NULL, ci=FALSE,
                        tvar="trans", sing.inf=1e+10, B=1000, cl=0.95, 
                        tidy=FALSE, ...){
@@ -446,7 +448,7 @@ pmatrix.fs <- function(x, trans=NULL, t=1, newdata=NULL,
     if (nt<1) stop("number of times should be at least one")
     basepar <- pars.fmsm(x=x, trans=trans, newdata=newdata, tvar=tvar)
     auxpar <- if (!is.flexsurvlist(x)) x$aux else lapply(x, function(x)x$aux)
-    res <- ode(y=diag(nst), times=c(0,t), func=dp, parms=list(par=basepar, aux=auxpar), ...)[-1,-1]
+    res <- ode(y=diag(nst), times=c(t0,t), func=dp, parms=list(par=basepar, aux=auxpar), ...)[-1,-1]
     if (is.null(condstates)) condstates <- 1:nst
     condstates <- state_nums(condstates, x)
     if (any(condstates > nst)) stop(sprintf("all `condstates` should be in 1 to %s",nst))
@@ -458,7 +460,7 @@ pmatrix.fs <- function(x, trans=NULL, t=1, newdata=NULL,
     res <- lapply(split(res,1:nt), to_pmatrix)
     names(res) <- t
     if (ci){
-        resci <- bootci.fmsm(x, B, fn=pmatrix.fs, cl=cl, ci=FALSE, cores=NULL, trans=trans, t=t, newdata=newdata, condstates=condstates, tvar=tvar, sing.inf=sing.inf, tidy=tidy, ...)
+        resci <- bootci.fmsm(x, B, fn=pmatrix.fs, cl=cl, ci=FALSE, cores=NULL, trans=trans, t=t, t0=t0, newdata=newdata, condstates=condstates, tvar=tvar, sing.inf=sing.inf, tidy=tidy, ...)
         if (tidy) resci <- resci[,1:(nt*nst*nst),drop=FALSE]
         resl <- lapply(split(resci[1,],rep(1:nt, each=nst*nst)), function(x)matrix(x,nrow=nst,dimnames=dimnames(trans)))
         resu <- lapply(split(resci[2,],rep(1:nt, each=nst*nst)), function(x)matrix(x,nrow=nst,dimnames=dimnames(trans)))
@@ -512,7 +514,13 @@ pmatrix.fs <- function(x, trans=NULL, t=1, newdata=NULL,
 ##' probability matrix for time \eqn{t}, and \eqn{Q(t)} is the transition
 ##' hazard or intensity as a function of \eqn{t}.  The initial conditions are
 ##' \eqn{T(0) = 0} and \eqn{P(0) = I}.
-##' 
+##'
+##' If \code{t0} is supplied, the length of stay is computed over the interval
+##' from \code{t0} to \code{t} as \eqn{T(t) - T(t_0)}.  Note that \eqn{P(t)}
+##' here is always the transition probability from time 0, so the result is
+##' conditional on the state occupied at time 0, not at time \code{t0}.  This
+##' matches the behaviour of \code{totlos.msm} with its \code{fromt} argument.
+##'
 ##' Note that the package \pkg{msm} has a similar method \code{totlos.msm}.
 ##' \code{totlos.fs} should give the same results as \code{totlos.msm} when
 ##' both of these conditions hold:
@@ -541,19 +549,30 @@ pmatrix.fs <- function(x, trans=NULL, t=1, newdata=NULL,
 ##' 
 ##' \code{x} can also be a list of models, with one component for each
 ##' permitted transition, as illustrated in \code{\link{msfit.flexsurvreg}}.
+##'
 ##' @param trans Matrix indicating allowed transitions.  See
 ##' \code{\link{msfit.flexsurvreg}}.
-##' @param t Time or vector of times to predict up to.  Must be finite.
+##'
+##' @param t Time or vector of times to predict up to.  Must be finite, and
+##' greater than \code{t0}.
+##'
+##' @param t0 Time to predict from, default 0.  The expected length of stay is
+##' computed over the interval \code{(t0, t)}, but conditional on the state
+##' occupied at time 0 (as in \code{totlos.msm}), not at time \code{t0}.
+##'
 ##' @param newdata A data frame specifying the values of covariates in the
 ##' fitted model, other than the transition number.  See
 ##' \code{\link{msfit.flexsurvreg}}.
+##'
 ##' @param ci Return a confidence interval calculated by simulating from the
 ##' asymptotic normal distribution of the maximum likelihood estimates.  Turned
 ##' off by default, since this is computationally intensive.  If turned on,
 ##' users should increase \code{B} until the results reach the desired
 ##' precision.
+##'
 ##' @param tvar Variable in the data representing the transition type. Not
 ##' required if \code{x} is a list of models.
+##'
 ##' @param sing.inf If there is a singularity in the observed hazard, for
 ##' example a Weibull distribution with \code{shape < 1} has infinite hazard at
 ##' \code{t=0}, then as a workaround, the hazard is assumed to be a large
@@ -603,7 +622,7 @@ pmatrix.fs <- function(x, trans=NULL, t=1, newdata=NULL,
 ##' # distribution, the "semi-Markov" model there is the same as the Markov
 ##' # model here
 ##' @export
-totlos.fs <- function(x, trans=NULL, t=1, newdata=NULL, ci=FALSE,
+totlos.fs <- function(x, trans=NULL, t=1, t0=0, newdata=NULL, ci=FALSE,
                        tvar="trans", sing.inf=1e+10, B=1000, cl=0.95, ...){
     if (is.null(trans)) {
         if (!is.null(attr(x, "trans"))) trans <- attr(x, "trans")
@@ -633,15 +652,26 @@ totlos.fs <- function(x, trans=NULL, t=1, newdata=NULL, ci=FALSE,
     }
     nt <- length(t)
     if (nt<1) stop("number of times should be at least one")
+    if (t0 < 0) stop("`t0` must be non-negative")
+    if (any(t <= t0)) stop("all `t` must be greater than `t0`")
     basepar <- pars.fmsm(x=x, trans=trans, newdata=newdata, tvar=tvar)
     auxpar <- if (!is.flexsurvlist(x)) x$aux else lapply(x, function(x)x$aux)
     init <- cbind(matrix(0, nrow=n, ncol=n), diag(n))
-    res <- ode(y=init, times=c(0,t), func=dp, parms=list(par=basepar,aux=auxpar), ...)[-1,-1]
-    res.t <- lapply(split(res,1:nt), function(x)matrix(x[1:nsq],nrow=n))
-    res.p <- lapply(split(res,1:nt), function(x)matrix(x[nsq + 1:nsq],nrow=n))
+    ## Integrate P from time 0 (with P(0) = I) so that P(u) is always the
+    ## transition probability from time 0, consistent with totlos.msm().  The
+    ## expected length of stay over [t0, t] is then T(t) - T(t0), where
+    ## dT/dt = P(u).  Ask the solver for output at 0, t0 and each t.
+    otimes <- sort(unique(c(0, t0, t)))
+    res <- ode(y=init, times=otimes, func=dp, parms=list(par=basepar,aux=auxpar), ...)
+    Tmat <- function(tt) matrix(res[match(tt, otimes), 1 + 1:nsq],       nrow=n)
+    Pmat <- function(tt) matrix(res[match(tt, otimes), 1 + nsq + 1:nsq], nrow=n)
+    Tt0 <- Tmat(t0)
+    Pt0inv <- solve(Pmat(t0))
+    res.t <- lapply(t, function(tt) Tmat(tt) - Tt0)
+    res.p <- lapply(t, function(tt) Pt0inv %*% Pmat(tt)) # P(t0, t), as in pmatrix.fs
     names(res.t) <- names(res.p) <- t
     if (ci){
-        resci <- bootci.fmsm(x, B, fn=totlos.fs, attrs="P", cl=cl, ci=FALSE, trans=trans, t=t, newdata=newdata, tvar=tvar, sing.inf=sing.inf, ...)
+        resci <- bootci.fmsm(x, B, fn=totlos.fs, attrs="P", cl=cl, ci=FALSE, trans=trans, t=t, t0=t0, newdata=newdata, tvar=tvar, sing.inf=sing.inf, ...)
         tind <- rep(rep(1:nt,each=n*n), 2)
         res.tl <- lapply(split(resci[1,],tind), function(x)matrix(x[1:nsq],nrow=n))
         res.tu <- lapply(split(resci[2,],tind), function(x)matrix(x[1:nsq],nrow=n))
@@ -670,6 +700,7 @@ print.totlos.fs <- function(x, ...){attr(x, "P") <- NULL; print(unclass(x),...)}
 # pmatrix.flexsurvreg <- pmatrix.fs
 
 #' @noRd
+#' @exportS3Method NULL
 format.ci <- function(x, l, u, digits=NULL, ...)
 {
     if (is.null(digits)) digits <- 4
@@ -689,12 +720,14 @@ format.ci <- function(x, l, u, digits=NULL, ...)
 }
 
 #' @noRd
+#' @exportS3Method NULL
 print.ci <- function(x, l, u, digits=NULL,...){
     res <- format.ci(x, l, u, digits)
     print(res, quote=FALSE)
 }
 
 #' @noRd
+#' @exportS3Method NULL
 print.fs.msm.est <- function(x, digits=NULL, ...)
 {
     if (!is.null(attr(x, "lower")))

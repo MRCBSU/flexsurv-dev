@@ -9,6 +9,7 @@ pmatrix.fs(
   x,
   trans = NULL,
   t = 1,
+  t0 = 0,
   newdata = NULL,
   condstates = NULL,
   ci = FALSE,
@@ -34,6 +35,8 @@ permitted transition, as illustrated in \code{\link{msfit.flexsurvreg}}.}
 
 \item{t}{Time or vector of times to predict state occupancy probabilities
 for.}
+
+\item{t0}{Starting time for the prediction, defaulting to 0.}
 
 \item{newdata}{A data frame specifying the values of covariates in the
 fitted model, other than the transition number.  See
@@ -80,7 +83,7 @@ These are formatted for printing but may be extracted using \code{attr()}.
 The transition probability matrix for time-inhomogeneous Markov multi-state
 models fitted to time-to-event data with \code{\link{flexsurvreg}}.  This
 has \eqn{r,s} entry giving the probability that an individual is in state
-\eqn{s} at time \eqn{t}, given they are in state \eqn{r} at time \eqn{0}.
+\eqn{s} at time \eqn{t}, given they are in state \eqn{r} at time \eqn{t_0}.
 }
 \details{
 This is computed by solving the Kolmogorov forward differential equation

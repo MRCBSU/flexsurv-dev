@@ -49,6 +49,24 @@ if (require("msm")){
         pmatrix.fs(bexp, tmat, t=c(5,10), ci=TRUE, B=5)
     })
 
+    test_that("totlos for exponential model matches msm",{
+        expect_equal(as.numeric(totlos.msm(bmsm, tot=1)), 
+                     totlos.fs(bexp, tmat)[1,], tol=1e-04)
+        
+        expect_equal(as.numeric(totlos.msm(bmsm, tot=2)), 
+                     totlos.fs(bexp, tmat, t=2)[1,], tol=1e-04)
+    })
+    
+    test_that("totlos for exponential model matches msm with t0 > 0",{
+        expect_equal(as.numeric(totlos.msm(bmsm, tot=1, fromt=0.5)),
+                     totlos.fs(bexp, tmat, t=1, t0=0.5)[1,], tol=1e-04)
+        expect_equal(as.numeric(totlos.msm(bmsm, tot=3, fromt=1)),
+                     totlos.fs(bexp, tmat, t=3, t0=1)[1,], tol=1e-04)
+        ## vector of times, t0 > 0
+        r <- totlos.fs(bexp, tmat, t=c(2,3), t0=0.5)
+        expect_equal(as.numeric(totlos.msm(bmsm, tot=2, fromt=0.5)), r[["2"]][1,], tol=1e-04)
+        expect_equal(as.numeric(totlos.msm(bmsm, tot=3, fromt=0.5)), r[["3"]][1,], tol=1e-04)
+    })
 }
 
 test_that("ODE method matches Aalen-Johansen",{
